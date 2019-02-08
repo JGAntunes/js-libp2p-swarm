@@ -3,6 +3,7 @@
 /* eslint no-warning-comments: off */
 
 const parallel = require('async/parallel')
+const multiaddr = require('multiaddr')
 const once = require('once')
 const debug = require('debug')
 const log = debug('libp2p:switch:transport')
