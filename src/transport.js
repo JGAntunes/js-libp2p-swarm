@@ -150,6 +150,15 @@ class TransportManager {
             return done(err)
           }
           listener.removeListener('error', done)
+
+          // HACK check if it's an encapsulated address that acts as proxy
+          // if so, bind to one address and advertise other
+          const protos = ['ip4', 'dns', 'dns4']
+          if (ma.protoNames().filter(p => p === 'tcp').length > 1) {
+            freshMultiaddrs.push(multiaddr(`/${ma.toString().split('/').slice(5).join('/')}`))
+            return done()
+          }
+
           listener.getAddrs((err, addrs) => {
             if (err) {
               return done(err)
